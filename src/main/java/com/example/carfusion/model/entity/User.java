@@ -1,7 +1,8 @@
 package com.example.carfusion.model.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,8 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
 @Table(name = "users")
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Id
@@ -30,7 +31,9 @@ public class User {
     @CreationTimestamp
     @Column(updatable = false)
     LocalDateTime createdAt;
+
     @UpdateTimestamp
     LocalDateTime updatedAt;
+
     Boolean isActive = true;
 }

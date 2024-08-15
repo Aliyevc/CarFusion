@@ -58,12 +58,7 @@ public class UserService {
         return UserMapper.toDto(user).getEmail();
     }
 
-    public String getPasswordById(Long id){
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
-        return UserMapper.toDto(user).getPassword();
-    }
 
     public void deleteUser(Long id){
 
@@ -80,7 +75,6 @@ public class UserService {
                     existingUser.setName(updatedUserProfileDTO.getName());
                     existingUser.setSurname(updatedUserProfileDTO.getSurname());
                     existingUser.setPhone(updatedUserProfileDTO.getPhone());
-                    existingUser.setPassword(updatedUserProfileDTO.getPassword());
                     existingUser.setEmail(updatedUserProfileDTO.getEmail());
                     userRepository.save(existingUser);
                     return UserMapper.toDto(existingUser);

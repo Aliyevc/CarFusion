@@ -9,9 +9,11 @@ import lombok.experimental.FieldDefaults;
 public class UserDto {
 
     String name;
+
     String surname;
-    String password;
+
     String phone;
+
     String email;
 
 }
