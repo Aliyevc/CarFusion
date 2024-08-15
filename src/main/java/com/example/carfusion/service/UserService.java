@@ -1,5 +1,6 @@
 package com.example.carfusion.service;
 
+import com.example.carfusion.config.SecurityConfig;
 import com.example.carfusion.mapper.UserMapper;
 import com.example.carfusion.model.dto.request.CreateUserRequest;
 import com.example.carfusion.model.dto.response.UserDto;
@@ -16,15 +17,17 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     UserRepository userRepository;
+    SecurityConfig securityConfig;
 
-    protected User createUser(CreateUserRequest createUserRequest) {
+    public UserDto createUser(CreateUserRequest createUserRequest) {
         User user = new User();
         user.setName(createUserRequest.getName());
         user.setSurname(createUserRequest.getSurname());
         user.setEmail(createUserRequest.getEmail());
-        user.setPhone(createUserRequest.getPhoneNumber());
+        user.setPhone(createUserRequest.getPhone());
         user.setPassword(createUserRequest.getPassword());
-        return userRepository.save(user);
+
+        return UserMapper.toDto(userRepository.save(user));
     }
 
 

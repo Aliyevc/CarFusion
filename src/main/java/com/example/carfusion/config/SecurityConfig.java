@@ -33,8 +33,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(x -> x
                         // user
-                        .requestMatchers(HttpMethod.POST,"/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/v1/auth/**").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/v1/auth/**").permitAll()
                 )
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .httpBasic(Customizer.withDefaults())
