@@ -1,36 +1,46 @@
 package com.example.carfusion.model.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "cars")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+@RequiredArgsConstructor
+public class Car {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(nullable = false)
-    String name;
+    String brand;
     @Column(nullable = false)
-    String surname;
-    @Column(unique = true, nullable = false)
-    String email;
-    @Column(unique = true, nullable = false)
-    String password;
-    @Column(unique = true, nullable = false)
-    String phone;
+    String model;
+    Integer price;
+    @Column(nullable = false)
+    String engineType;
+    @Column(nullable = false)
+    String transmission;
+    @Column(nullable = false)
+    String fuelType;
+    @Column(nullable = false)
+    Integer releaseYear;
 
     @CreationTimestamp
-    @Column(updatable = false)
     LocalDateTime createdAt;
     @UpdateTimestamp
     LocalDateTime updatedAt;
     Boolean isActive = true;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    List<Announcement> announcementList;
 }
