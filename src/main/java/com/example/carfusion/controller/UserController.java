@@ -1,11 +1,13 @@
 package com.example.carfusion.controller;
 
 import com.example.carfusion.model.dto.request.CreateUserRequest;
+import com.example.carfusion.model.dto.update.UpdateUserRequest;
 import com.example.carfusion.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +25,10 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(createUserRequest));
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PutMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestBody UpdateUserRequest updateUserRequest) {
+        return ResponseEntity.ok(userService.updateUser(updateUserRequest));
+    }
 
 }

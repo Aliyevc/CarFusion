@@ -3,6 +3,7 @@ package com.example.carfusion.service;
 import com.example.carfusion.model.dto.request.CreateUserRequest;
 import com.example.carfusion.model.dto.response.UserDto;
 import com.example.carfusion.mapper.UserMapper;
+import com.example.carfusion.model.dto.update.UpdateUserRequest;
 import com.example.carfusion.model.entity.User;
 import com.example.carfusion.repository.UserRepository;
 import lombok.AccessLevel;
@@ -68,17 +69,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserDto updateUser(Long id, UserDto updatedUserProfileDTO) {
+    public UserDto updateUser(UpdateUserRequest updateUserRequest) {
 
-        return userRepository.findById(id).map(existingUser -> {
+        User user = userRepository.findByEmail(updateUserRequest.getEmail()).orElseThrow(RuntimeException::new);
+        user.setPassword(updateUserRequest.getPassword());
+        userRepository.save(user);
 
-                    existingUser.setName(updatedUserProfileDTO.getName());
-                    existingUser.setSurname(updatedUserProfileDTO.getSurname());
-                    existingUser.setPhone(updatedUserProfileDTO.getPhone());
-                    existingUser.setEmail(updatedUserProfileDTO.getEmail());
-                    userRepository.save(existingUser);
-                    return UserMapper.toDto(existingUser);
-                })
-                .orElseThrow(RuntimeException::new);
+        return UserMapper.toDto(user);
     }
 }
