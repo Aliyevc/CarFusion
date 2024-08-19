@@ -10,33 +10,20 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+@Table(name = "user_types")
+public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(nullable = false)
-    String name;
-    @Column(nullable = false)
-    String surname;
-    @Column(unique = true, nullable = false)
-    String email;
-    @Column(unique = true, nullable = false)
-    String password;
-    @Column(unique = true, nullable = false)
-    String phone;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
-    Role role;
+    String role;
 
     @CreationTimestamp
-    @Column(updatable = false)
     LocalDateTime createdAt;
-
     @UpdateTimestamp
     LocalDateTime updatedAt;
-
     Boolean isActive = true;
 }
