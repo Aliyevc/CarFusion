@@ -22,4 +22,7 @@ public class CreateUserRequest {
     @NotBlank
     String password;
 
+    @NotBlank
+    String role;
+
 }
