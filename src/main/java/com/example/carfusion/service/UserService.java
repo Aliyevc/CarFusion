@@ -66,8 +66,6 @@ public class UserService {
         return UserMapper.toDto(user).getEmail();
     }
 
-
-
     public void deleteUser(Long id){
 
         User user = userRepository.findById(id)
