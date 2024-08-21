@@ -52,4 +52,10 @@ public class RoleService {
         }).orElseThrow(() -> new RuntimeException("Not Found"));
     }
 
+    protected Role getByRole(String role) {
+
+        return roleRepository.findByRole(role).
+                orElseThrow(() -> new RuntimeException("Not Found"));
+    }
+
 }

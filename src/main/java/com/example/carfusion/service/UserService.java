@@ -1,5 +1,6 @@
 package com.example.carfusion.service;
 
+import com.example.carfusion.config.SecurityConfig;
 import com.example.carfusion.exception.UserNotFoundException;
 import com.example.carfusion.model.dto.request.CreateUserRequest;
 import com.example.carfusion.model.dto.response.UserDto;
@@ -17,7 +18,10 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
 
+
     UserRepository userRepository;
+    SecurityConfig securityConfig;
+    RoleService roleService;
 
     public UserDto createUser(CreateUserRequest createUserRequest) {
 
@@ -26,11 +30,13 @@ public class UserService {
         user.setSurname(createUserRequest.getSurname());
         user.setEmail(createUserRequest.getEmail());
         user.setPhone(createUserRequest.getPhone());
-        user.setPassword(createUserRequest.getPassword());
+        user.setPassword(securityConfig.passwordEncoder().encode(createUserRequest.getPassword()));
+        user.setRole(roleService.getByRole(createUserRequest.getRole()));
         userRepository.save(user);
 
         return UserMapper.toDto(user);
     }
+
 
     protected String getNameById(Long id) {
 
