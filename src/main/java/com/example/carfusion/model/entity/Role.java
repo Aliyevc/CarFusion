@@ -8,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -21,8 +20,6 @@ public class Role {
     Long id;
     @Column(nullable = false)
     String role;
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    List<User> users;
 
     @CreationTimestamp
     LocalDateTime createdAt;
