@@ -1,6 +1,6 @@
 package com.example.carfusion.service;
 
-import com.example.carfusion.config.SecurityConfig;
+import com.example.carfusion.exception.UserNotFoundException;
 import com.example.carfusion.model.dto.request.CreateUserRequest;
 import com.example.carfusion.model.dto.response.UserDto;
 import com.example.carfusion.mapper.UserMapper;
@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     UserRepository userRepository;
-    SecurityConfig securityConfig;
-    RoleService roleService;
 
     public UserDto createUser(CreateUserRequest createUserRequest) {
 
@@ -28,38 +26,37 @@ public class UserService {
         user.setSurname(createUserRequest.getSurname());
         user.setEmail(createUserRequest.getEmail());
         user.setPhone(createUserRequest.getPhone());
-        user.setPassword(securityConfig.passwordEncoder().encode(createUserRequest.getPassword()));
-        user.setRole(roleService.getByRole(createUserRequest.getRole()));
+        user.setPassword(createUserRequest.getPassword());
         userRepository.save(user);
 
         return UserMapper.toDto(user);
     }
 
-    public String getNameById(Long id) {
+    protected String getNameById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return UserMapper.toDto(user).getName();
     }
 
-    public String getSurnameById(Long id) {
+    protected String getSurnameById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return UserMapper.toDto(user).getSurname();
     }
 
-    public String getPhoneById(Long id) {
+    protected String getPhoneById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not Found"));
         return UserMapper.toDto(user).getPhone();
     }
 
-    public String getEmailById(Long id) {
+    protected String getEmailById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return UserMapper.toDto(user).getEmail();
     }
 
@@ -68,8 +65,14 @@ public class UserService {
     public void deleteUser(Long id){
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
-        user.setIsActive(false);
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+
+        if (!user.getIsActive()) {
+            throw new UserNotFoundException("User is not active");
+        }
+        else {
+            user.setIsActive(false);
+        }
         userRepository.save(user);
     }
 
