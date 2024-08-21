@@ -1,5 +1,6 @@
 package com.example.carfusion.service;
 
+import com.example.carfusion.exception.AnnouncementNotFoundException;
 import com.example.carfusion.mapper.AnnouncementMapper;
 import com.example.carfusion.mapper.CarMapper;
 import com.example.carfusion.model.dto.request.CreateAnnouncementRequest;
@@ -33,7 +34,7 @@ public class AnnouncementService {
         announcement.setTitle(createAnnouncementRequest.getTitle());
         announcement.setDescription(createAnnouncementRequest.getDescription());
         announcement.setCar(carRepository.findById(createAnnouncementRequest.getCarId())
-                .orElseThrow(() -> new RuntimeException("Not Found")));
+                .orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found")));
         announcementRepository.save(announcement);
 
         return AnnouncementMapper.toDto(announcement);
@@ -43,7 +44,7 @@ public class AnnouncementService {
     public String getContactNumberById(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found")));
 
         return AnnouncementMapper.toDto(announcement).getContactNumber();
 
@@ -52,7 +53,7 @@ public class AnnouncementService {
     public String getLocationById(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found")));
 
         return AnnouncementMapper.toDto(announcement).getLocation();
 
@@ -61,7 +62,7 @@ public class AnnouncementService {
     public String getTitleById(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
 
         return AnnouncementMapper.toDto(announcement).getTitle();
 
@@ -70,7 +71,7 @@ public class AnnouncementService {
     public String getDescription(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
 
         return AnnouncementMapper.toDto(announcement).getDescription();
 
@@ -79,7 +80,7 @@ public class AnnouncementService {
     public String getFuelTypeById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
 
         return CarMapper.toDto(car).getFuelType();
 
@@ -88,7 +89,7 @@ public class AnnouncementService {
     public Integer getPriceById(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
 
         return AnnouncementMapper.toDto(announcement).getPrice();
 
@@ -97,7 +98,7 @@ public class AnnouncementService {
     public CarDto getCarById(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
 
         CarDto car = CarMapper.toDto(announcement.getCar());
 
@@ -107,7 +108,7 @@ public class AnnouncementService {
     public void deleteAnnouncement(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
         announcement.setIsActive(false);
         announcementRepository.save(announcement);
     }
@@ -121,11 +122,11 @@ public class AnnouncementService {
                     existingAnnouncement.setLocation(announcementDto.getLocation());
                     existingAnnouncement.setTitle(announcementDto.getTitle());
                     existingAnnouncement.setCar(carRepository.findById(announcementDto.getCarId())
-                            .orElseThrow(() -> new RuntimeException("Not Found")));
+                            .orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found")));
                     existingAnnouncement.setPrice(announcementDto.getPrice());
                     announcementRepository.save(existingAnnouncement);
                     return AnnouncementMapper.toDto(existingAnnouncement);
                 })
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
     }
 }

@@ -84,7 +84,7 @@ public class UserService {
 
     public UserDto updateUser(UpdateUserRequest updateUserRequest) {
 
-        User user = userRepository.findByEmail(updateUserRequest.getEmail()).orElseThrow(RuntimeException::new);
+        User user = userRepository.findByEmail(updateUserRequest.getEmail()).orElseThrow(() -> new UserNotFoundException("User Not Found"));
         user.setPassword(updateUserRequest.getPassword());
         userRepository.save(user);
 

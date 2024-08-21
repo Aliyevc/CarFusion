@@ -1,5 +1,7 @@
 package com.example.carfusion.service;
 
+import com.example.carfusion.exception.CarNotFoundException;
+import com.example.carfusion.exception.UserNotFoundException;
 import com.example.carfusion.mapper.CarMapper;
 import com.example.carfusion.mapper.UserMapper;
 import com.example.carfusion.model.dto.request.CreateCarRequest;
@@ -39,7 +41,7 @@ public class CarService {
     public String getModelById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
 
         return CarMapper.toDto(car).getModel();
 
@@ -48,7 +50,7 @@ public class CarService {
     public String getBrandById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
 
         return CarMapper.toDto(car).getBrand();
 
@@ -57,7 +59,7 @@ public class CarService {
     public String getTransmissionById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
 
         return CarMapper.toDto(car).getTransmission();
 
@@ -66,7 +68,7 @@ public class CarService {
     public String getEngineTypeById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
 
         return CarMapper.toDto(car).getEngineType();
 
@@ -75,7 +77,7 @@ public class CarService {
     public String getFuelTypeById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
 
         return CarMapper.toDto(car).getFuelType();
 
@@ -84,7 +86,7 @@ public class CarService {
     public Integer getPriceById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
 
         return CarMapper.toDto(car).getPrice();
 
@@ -93,7 +95,7 @@ public class CarService {
     public Integer getReleaseYearById(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
 
         return CarMapper.toDto(car).getReleaseYear();
     }
@@ -101,7 +103,7 @@ public class CarService {
     public void deleteCar(Long id) {
 
         Car car = carRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new CarNotFoundException("Car Not Found"));
         car.setIsActive(false);
         carRepository.save(car);
     }
