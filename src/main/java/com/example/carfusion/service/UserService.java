@@ -1,6 +1,7 @@
 package com.example.carfusion.service;
 
 import com.example.carfusion.config.SecurityConfig;
+import com.example.carfusion.exception.UserNotFoundException;
 import com.example.carfusion.model.dto.request.CreateUserRequest;
 import com.example.carfusion.model.dto.response.UserDto;
 import com.example.carfusion.mapper.UserMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
+
 
     UserRepository userRepository;
     SecurityConfig securityConfig;
@@ -35,17 +37,18 @@ public class UserService {
         return UserMapper.toDto(user);
     }
 
+
     protected String getNameById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return UserMapper.toDto(user).getName();
     }
 
     protected String getSurnameById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return UserMapper.toDto(user).getSurname();
     }
 
@@ -59,21 +62,27 @@ public class UserService {
     protected String getEmailById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return UserMapper.toDto(user).getEmail();
     }
 
     public void deleteUser(Long id){
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
-        user.setIsActive(false);
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+
+        if (!user.getIsActive()) {
+            throw new UserNotFoundException("User is not active");
+        }
+        else {
+            user.setIsActive(false);
+        }
         userRepository.save(user);
     }
 
     public UserDto updateUser(UpdateUserRequest updateUserRequest) {
 
-        User user = userRepository.findByEmail(updateUserRequest.getEmail()).orElseThrow(RuntimeException::new);
+        User user = userRepository.findByEmail(updateUserRequest.getEmail()).orElseThrow(() -> new UserNotFoundException("User Not Found"));
         user.setPassword(updateUserRequest.getPassword());
         userRepository.save(user);
 

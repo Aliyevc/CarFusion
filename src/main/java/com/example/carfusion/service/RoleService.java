@@ -1,5 +1,6 @@
 package com.example.carfusion.service;
 
+import com.example.carfusion.exception.RoleNotFoundException;
 import com.example.carfusion.mapper.RoleMapper;
 import com.example.carfusion.model.dto.request.CreateRoleRequest;
 import com.example.carfusion.model.dto.response.RoleDto;
@@ -30,14 +31,14 @@ public class RoleService {
     public String getRoleById(Long id) {
 
         Role role = roleRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new RoleNotFoundException("Role Not Found"));
         return RoleMapper.toDto(role).getRole();
     }
 
     public void deleteRole(Long id) {
 
         Role role = roleRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new RoleNotFoundException("Role Not Found"));
         role.setIsActive(false);
         roleRepository.save(role);
     }
@@ -49,13 +50,13 @@ public class RoleService {
             existingRole.setRole(roleDto.getRole());
             return RoleMapper.toDto(existingRole);
 
-        }).orElseThrow(() -> new RuntimeException("Not Found"));
+        }).orElseThrow(() -> new RoleNotFoundException("Role Not Found"));
     }
 
     protected Role getByRole(String role) {
 
         return roleRepository.findByRole(role).
-                orElseThrow(() -> new RuntimeException("Not Found"));
+                orElseThrow(() -> new RoleNotFoundException("Role Not Found"));
     }
 
 
