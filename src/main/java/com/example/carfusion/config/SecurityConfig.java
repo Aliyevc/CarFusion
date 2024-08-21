@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(x -> x
                         // user
                         .requestMatchers(HttpMethod.PUT,"/v1/auth/**").hasAnyRole("ADMIN","USER")
+                        .requestMatchers(HttpMethod.DELETE,"/v1/auth/**").hasAnyRole("ADMIN","USER")
                         .requestMatchers(HttpMethod.POST,"/v1/auth/**").permitAll()
                 )
                 .sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
