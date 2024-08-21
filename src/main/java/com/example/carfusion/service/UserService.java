@@ -35,35 +35,33 @@ public class UserService {
         return UserMapper.toDto(user);
     }
 
-    public String getNameById(Long id) {
+    protected String getNameById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not Found"));
         return UserMapper.toDto(user).getName();
     }
 
-    public String getSurnameById(Long id) {
+    protected String getSurnameById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not Found"));
         return UserMapper.toDto(user).getSurname();
     }
 
-    public String getPhoneById(Long id) {
+    protected String getPhoneById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not Found"));
         return UserMapper.toDto(user).getPhone();
     }
 
-    public String getEmailById(Long id) {
+    protected String getEmailById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not Found"));
         return UserMapper.toDto(user).getEmail();
     }
-
-
 
     public void deleteUser(Long id){
 
