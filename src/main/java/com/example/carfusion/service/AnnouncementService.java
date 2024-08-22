@@ -44,7 +44,7 @@ public class AnnouncementService {
     public String getContactNumberById(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found")));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
 
         return AnnouncementMapper.toDto(announcement).getContactNumber();
 
@@ -53,7 +53,7 @@ public class AnnouncementService {
     public String getLocationById(Long id) {
 
         Announcement announcement = announcementRepository.findById(id).
-                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found")));
+                orElseThrow(() -> new AnnouncementNotFoundException("Announcement Not Found"));
 
         return AnnouncementMapper.toDto(announcement).getLocation();
 
